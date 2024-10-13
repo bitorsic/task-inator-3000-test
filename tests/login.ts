@@ -1,112 +1,117 @@
 import { By, Key, until, WebDriver } from "selenium-webdriver";
-import { passText, failText } from "../constants"
+import { failText, passText } from "../constants";
 
-type RegisterForm = {
+type LoginForm = {
 	email: string,
-	firstName: string,
-	lastName: string,
 	password: string,
 }
 
-const submitForm = async (input: RegisterForm, driver: WebDriver) => {
+const submitForm = async (input: LoginForm, driver: WebDriver) => {
 	// locate all input fields
 	const emailInput = await driver.findElement(By.id('email'));
-	const firstNameInput = await driver.findElement(By.id('first_name'));
-	const lastNameInput = await driver.findElement(By.id('last_name'));
 	const passwordInput = await driver.findElement(By.id('password'));
 
 	// enter text into fields
 	await emailInput.sendKeys(input.email);
-	await firstNameInput.sendKeys(input.firstName);
-	await lastNameInput.sendKeys(input.lastName);
 	await passwordInput.sendKeys(input.password);
 
 	// locate register button and click it
-	const registerButton = await driver.findElement(By.css('button[type="submit"]'));
-	await registerButton.click();
+	const loginButton = await driver.findElement(By.css('button[type="submit"]'));
+	await loginButton.click();
 }
 
 const clearForm = async (driver: WebDriver) => {
 	// locate all input fields
 	const emailInput = await driver.findElement(By.id('email'));
-	const firstNameInput = await driver.findElement(By.id('first_name'));
-	const lastNameInput = await driver.findElement(By.id('last_name'));
 	const passwordInput = await driver.findElement(By.id('password'));
 
 	// clear all input fields
 	await emailInput.sendKeys(Key.CONTROL, 'a');
 	await emailInput.sendKeys(Key.BACK_SPACE);
-	await firstNameInput.sendKeys(Key.CONTROL, 'a');
-	await firstNameInput.sendKeys(Key.BACK_SPACE);
-	await lastNameInput.sendKeys(Key.CONTROL, 'a');
-	await lastNameInput.sendKeys(Key.BACK_SPACE);
 	await passwordInput.sendKeys(Key.CONTROL, 'a');
 	await passwordInput.sendKeys(Key.BACK_SPACE);
 }
 
-const existingEmail = async (driver: WebDriver) => {
-	let input: RegisterForm = {
-		email: "bitorsic@gmail.com",
-		firstName: "Yash",
-		lastName: "Jaiswal",
+const incorrectEmail = async (driver: WebDriver) => {
+	let input: LoginForm = {
+		email: "abcd@gmail.com",
 		password: "testing",
 	}
 
 	try {
 		await submitForm(input, driver);
-	
+
 		// wait for alert, and assert the text in it
 		await driver.wait(until.alertIsPresent());
-	
+
 		const alert = await driver.switchTo().alert();
 		const alertText = await alert.getText();
-	
+
 		// assertion
 		let text: string;
-	
-		if (alertText === "email is already in use") text = passText;
+
+		if (alertText === "invalid credentials") text = passText;
 		else text = failText;
-	
+
 		console.log(`${text} (Alert opened with text: ${alertText})\n`)
-	
+
 		await alert.accept();
 		await clearForm(driver);
 	} catch (e) {
 		console.log(`${failText} (error: ${e})`)
 	}
-
 }
 
-const newEmail = async (driver: WebDriver) => {
-	let input = {
+const incorrectPassword = async (driver: WebDriver) => {
+	let input: LoginForm = {
 		email: "yash_jaiswal_comp@moderncoe.edu.in",
-		firstName: "Tester",
-		lastName: "",
+		password: "incorrectpass",
+	}
+
+	try {
+		await submitForm(input, driver);
+
+		// wait for alert, and assert the text in it
+		await driver.wait(until.alertIsPresent());
+
+		const alert = await driver.switchTo().alert();
+		const alertText = await alert.getText();
+
+		// assertion
+		let text: string;
+
+		if (alertText === "invalid credentials") text = passText;
+		else text = failText;
+
+		console.log(`${text} (Alert opened with text: ${alertText})\n`)
+
+		await alert.accept();
+		await clearForm(driver);
+	} catch (e) {
+		console.log(`${failText} (error: ${e})`)
+	}
+}
+
+const correctCredentials = async (driver: WebDriver) => {
+	let input: LoginForm = {
+		email: "yash_jaiswal_comp@moderncoe.edu.in",
 		password: "testing",
 	}
 
 	try {
 		await submitForm(input, driver);
-	
-		// wait for alert, and assert the text in it
-		await driver.wait(until.alertIsPresent());
-	
-		const alert = await driver.switchTo().alert();
-		const alertText = await alert.getText();
-	
-		// assertion
-		let text: string;
-	
-		if (alertText === "Registration Successful") text = passText;
-		else text = failText;
-	
-		console.log(`${text} (Alert opened with text: ${alertText})\n`)
-	
-		await alert.accept();
-	} catch (e) {
-		console.log(`${failText} (error: ${e})`)
-	}
 
+		// Locate the <p> element in navbar 
+		const paragraph = await driver.wait(
+			until.elementLocated(By.xpath("//p[contains(.,'Hi, Tester')]")),
+			5000 // Wait up to 5 seconds
+		);
+
+
+		console.log(`${passText} ("Hi, Tester" visible in navbar)\n`);
+	} catch (e) {
+		console.log(`${failText} (error: ${e})`);
+	}
 }
 
-export default { existingEmail, newEmail }
+export default { incorrectEmail, incorrectPassword, correctCredentials }
