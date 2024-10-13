@@ -72,7 +72,7 @@ const existingEmail = async (driver: WebDriver) => {
 		await alert.accept();
 		await clearForm(driver);
 	} catch (e) {
-		console.log(`${failText} (error: ${e})`)
+		console.log(`${failText} (error: ${e})\n`)
 	}
 
 }
@@ -104,7 +104,7 @@ const newEmail = async (driver: WebDriver) => {
 	
 		await alert.accept();
 	} catch (e) {
-		console.log(`${failText} (error: ${e})`)
+		console.log(`${failText} (error: ${e})\n`)
 	}
 
 }

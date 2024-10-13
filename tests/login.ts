@@ -58,7 +58,7 @@ const incorrectEmail = async (driver: WebDriver) => {
 		await alert.accept();
 		await clearForm(driver);
 	} catch (e) {
-		console.log(`${failText} (error: ${e})`)
+		console.log(`${failText} (error: ${e})\n`)
 	}
 }
 
@@ -88,7 +88,7 @@ const incorrectPassword = async (driver: WebDriver) => {
 		await alert.accept();
 		await clearForm(driver);
 	} catch (e) {
-		console.log(`${failText} (error: ${e})`)
+		console.log(`${failText} (error: ${e})\n`)
 	}
 }
 
@@ -110,7 +110,7 @@ const correctCredentials = async (driver: WebDriver) => {
 
 		console.log(`${passText} ("Hi, Tester" visible in navbar)\n`);
 	} catch (e) {
-		console.log(`${failText} (error: ${e})`);
+		console.log(`${failText} (error: ${e})\n`);
 	}
 }
 
