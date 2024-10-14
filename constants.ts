@@ -8,6 +8,7 @@ const lastName: string = "Jaiswal";
 const password: string = "testing";
 
 const taskContent: string = "Test task content";
+const taskListTitle: string = "Test tasklist title";
 
 export default {
 	passText,
@@ -18,4 +19,5 @@ export default {
 	lastName,
 	password,
 	taskContent,
+	taskListTitle,
 }

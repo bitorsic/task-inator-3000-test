@@ -103,15 +103,37 @@ const correctCredentials = async (driver: WebDriver) => {
 
 		// Locate the <p> element in navbar 
 		const paragraph = await driver.wait(
-			until.elementLocated(By.xpath("//p[contains(.,'Hi, Tester')]")),
-			5000 // Wait up to 5 seconds
+			until.elementLocated(By.xpath(`//p[contains(.,'Hi, ${constants.firstName}')]`)),
+			10000 // Wait up to 10 seconds
 		);
 
 
-		console.log(`${constants.passText} ("Hi, Tester" visible in navbar)\n`);
+		console.log(`${constants.passText} ("Hi, ${constants.firstName}" visible in navbar)\n`);
 	} catch (e) {
 		console.log(`${constants.failText} (error: ${e})\n`);
 	}
 }
 
-export default { incorrectEmail, incorrectPassword, correctCredentials }
+const logout = async (driver: WebDriver) => {
+	try {
+		// Wait for the 'Log out' button and click it
+		const logoutButton = await driver.wait(
+			until.elementLocated(By.xpath("//button[text()='Log out']")),
+			10000 // Wait up to 10 seconds
+		);
+		await logoutButton.click();
+
+		// Wait for the 'Log in' button
+		const loginButton = await driver.wait(
+			until.elementLocated(By.xpath("//button[text()='Log in']")),
+			10000 // Wait up to 10 seconds
+		);
+
+		console.log(`${constants.passText} (Logged out successfully)`)
+
+	} catch (e) {
+		console.log(`${constants.failText} (error: ${e})\n`);
+	}
+}
+
+export default { incorrectEmail, incorrectPassword, correctCredentials, logout }

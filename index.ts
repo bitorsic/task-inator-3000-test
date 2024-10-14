@@ -2,6 +2,7 @@ import { Builder, By, until, WebDriver } from 'selenium-webdriver';
 import register from './tests/register';
 import login from './tests/login';
 import tasks from './tests/tasks';
+import tasklists from './tests/tasklists';
 
 const startBackend = async (driver: WebDriver) => {
 	// Navigate to Backend URL
@@ -53,9 +54,21 @@ const startBackend = async (driver: WebDriver) => {
 
 		console.log("Test Case 8: delete task");
 		await tasks.deleteTask(driver);
+		
+		console.log("Test Case 9: delete tasklist");
+		await tasklists.deleteTaskList(driver);
 
-		// Sleep for 5 seconds
-		await driver.sleep(5000);
+		console.log("Test Case 10: add tasklist with empty title");
+		await tasklists.emptyTitle(driver);
+
+		console.log("Test Case 11: add tasklist with valid title");
+		await tasklists.validTitle(driver);
+
+		console.log("Test Case 12: log out");
+		await login.logout(driver);
+
+		// Sleep for 10 seconds
+		await driver.sleep(10000);
 	} catch (e) {
 		console.error(e);
 	} finally {

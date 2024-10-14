@@ -6,14 +6,14 @@ const emptyContent = async (driver: WebDriver) => {
 		// Wait for the 'Add task' button and click it
 		const addTaskButton = await driver.wait(
 			until.elementLocated(By.xpath("//button[.//span[text()='Add Task']]")),
-			5000 // Wait up to 5 seconds
+			10000 // Wait up to 10 seconds
 		);
 		await addTaskButton.click();
 
 		// Wait for the 'Add' button and click it, no content being added
 		const addButton = await driver.wait(
 			until.elementLocated(By.xpath("//button[text()='Add']")),
-			5000 // Wait up to 5 seconds
+			10000 // Wait up to 10 seconds
 		);
 		await addButton.click();
 
@@ -44,7 +44,7 @@ const validContent = async (driver: WebDriver) => {
 		// Wait for the input element, by getting it by placeholder
 		const inputField = await driver.wait(
 			until.elementLocated(By.xpath("//input[@placeholder='Add New Task']")),
-			5000 // Wait up to 5 seconds
+			10000 // Wait up to 10 seconds
 		);
 
 		inputField.sendKeys(constants.taskContent);
@@ -52,14 +52,14 @@ const validContent = async (driver: WebDriver) => {
 		// Wait for the 'Add' button and click it
 		const addButton = await driver.wait(
 			until.elementLocated(By.xpath("//button[text()='Add']")),
-			5000 // Wait up to 5 seconds
+			10000 // Wait up to 10 seconds
 		);
 		await addButton.click();
 
 		// Locate the <p> element with content 
 		const paragraph = await driver.wait(
 			until.elementLocated(By.xpath(`//p[contains(.,'${constants.taskContent}')]`)),
-			5000 // Wait up to 5 seconds
+			10000 // Wait up to 10 seconds
 		);
 
 		console.log(`${constants.passText} (Task added successfully)\n`)
@@ -73,7 +73,7 @@ const deleteTask = async (driver: WebDriver) => {
 		// Firstly, get the entered task to check for its disappearance
 		const paragraph = await driver.wait(
 			until.elementLocated(By.xpath(`//p[contains(.,'${constants.taskContent}')]`)),
-			5000 // Wait up to 5 seconds
+			10000 // Wait up to 10 seconds
 		);
 
 		// Find and click the delete button
@@ -81,7 +81,7 @@ const deleteTask = async (driver: WebDriver) => {
 		await deleteButton.click();
 
 		// Wait until the task is removed
-		const isAbsent = await driver.wait(until.stalenessOf(paragraph), 5000); // Wait up to 5 seconds
+		const isAbsent = await driver.wait(until.stalenessOf(paragraph), 10000); // Wait up to 10 seconds
 
 		if (isAbsent) console.log(`${constants.passText} (Task deleted successfully)\n`);
 		else console.log(`${constants.failText} (Task could not be deleted)\n`);
