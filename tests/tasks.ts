@@ -1,5 +1,5 @@
 import { By, until, WebDriver } from "selenium-webdriver";
-import { failText, passText, taskContent } from "../constants";
+import constants from "../constants";
 
 const emptyContent = async (driver: WebDriver) => {
 	try {
@@ -26,14 +26,14 @@ const emptyContent = async (driver: WebDriver) => {
 		// assertion
 		let text: string;
 
-		if (alertText === "content cannot be empty") text = passText;
-		else text = failText;
+		if (alertText === "content cannot be empty") text = constants.passText;
+		else text = constants.failText;
 
 		console.log(`${text} (Alert opened with text: ${alertText})\n`)
 
 		await alert.accept();
 	} catch (e) {
-		console.log(`${failText} (error: ${e})\n`);
+		console.log(`${constants.failText} (error: ${e})\n`);
 	}
 }
 
@@ -47,7 +47,7 @@ const validContent = async (driver: WebDriver) => {
 			5000 // Wait up to 5 seconds
 		);
 
-		inputField.sendKeys(taskContent);
+		inputField.sendKeys(constants.taskContent);
 
 		// Wait for the 'Add' button and click it
 		const addButton = await driver.wait(
@@ -58,13 +58,13 @@ const validContent = async (driver: WebDriver) => {
 
 		// Locate the <p> element with content 
 		const paragraph = await driver.wait(
-			until.elementLocated(By.xpath(`//p[contains(.,'${taskContent}')]`)),
+			until.elementLocated(By.xpath(`//p[contains(.,'${constants.taskContent}')]`)),
 			5000 // Wait up to 5 seconds
 		);
 
-		console.log(`${passText} (Task added successfully)\n`)
+		console.log(`${constants.passText} (Task added successfully)\n`)
 	} catch (e) {
-		console.log(`${failText} (error: ${e})\n`);
+		console.log(`${constants.failText} (error: ${e})\n`);
 	}
 }
 
@@ -72,7 +72,7 @@ const deleteTask = async (driver: WebDriver) => {
 	try {
 		// Firstly, get the entered task to check for its disappearance
 		const paragraph = await driver.wait(
-			until.elementLocated(By.xpath(`//p[contains(.,'${taskContent}')]`)),
+			until.elementLocated(By.xpath(`//p[contains(.,'${constants.taskContent}')]`)),
 			5000 // Wait up to 5 seconds
 		);
 
@@ -83,10 +83,10 @@ const deleteTask = async (driver: WebDriver) => {
 		// Wait until the task is removed
 		const isAbsent = await driver.wait(until.stalenessOf(paragraph), 5000); // Wait up to 5 seconds
 
-		if (isAbsent) console.log(`${passText} (Task deleted successfully)\n`);
-		else console.log(`${failText} (Task could not be deleted)\n`);
+		if (isAbsent) console.log(`${constants.passText} (Task deleted successfully)\n`);
+		else console.log(`${constants.failText} (Task could not be deleted)\n`);
 	} catch (e) {
-		console.log(`${failText} (error: ${e})\n`);
+		console.log(`${constants.failText} (error: ${e})\n`);
 	}
 }
 

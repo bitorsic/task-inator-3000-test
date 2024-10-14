@@ -1,5 +1,5 @@
 import { By, Key, until, WebDriver } from "selenium-webdriver";
-import { failText, passText } from "../constants";
+import constants from "../constants";
 
 type LoginForm = {
 	email: string,
@@ -35,7 +35,7 @@ const clearForm = async (driver: WebDriver) => {
 const incorrectEmail = async (driver: WebDriver) => {
 	let input: LoginForm = {
 		email: "abcd@gmail.com",
-		password: "testing",
+		password: constants.password,
 	}
 
 	try {
@@ -50,21 +50,21 @@ const incorrectEmail = async (driver: WebDriver) => {
 		// assertion
 		let text: string;
 
-		if (alertText === "invalid credentials") text = passText;
-		else text = failText;
+		if (alertText === "invalid credentials") text = constants.passText;
+		else text = constants.failText;
 
 		console.log(`${text} (Alert opened with text: ${alertText})\n`)
 
 		await alert.accept();
 		await clearForm(driver);
 	} catch (e) {
-		console.log(`${failText} (error: ${e})\n`)
+		console.log(`${constants.failText} (error: ${e})\n`)
 	}
 }
 
 const incorrectPassword = async (driver: WebDriver) => {
 	let input: LoginForm = {
-		email: "yash_jaiswal_comp@moderncoe.edu.in",
+		email: constants.newEmail,
 		password: "incorrectpass",
 	}
 
@@ -80,22 +80,22 @@ const incorrectPassword = async (driver: WebDriver) => {
 		// assertion
 		let text: string;
 
-		if (alertText === "invalid credentials") text = passText;
-		else text = failText;
+		if (alertText === "invalid credentials") text = constants.passText;
+		else text = constants.failText;
 
 		console.log(`${text} (Alert opened with text: ${alertText})\n`)
 
 		await alert.accept();
 		await clearForm(driver);
 	} catch (e) {
-		console.log(`${failText} (error: ${e})\n`)
+		console.log(`${constants.failText} (error: ${e})\n`)
 	}
 }
 
 const correctCredentials = async (driver: WebDriver) => {
 	let input: LoginForm = {
-		email: "yash_jaiswal_comp@moderncoe.edu.in",
-		password: "testing",
+		email: constants.newEmail,
+		password: constants.password,
 	}
 
 	try {
@@ -108,9 +108,9 @@ const correctCredentials = async (driver: WebDriver) => {
 		);
 
 
-		console.log(`${passText} ("Hi, Tester" visible in navbar)\n`);
+		console.log(`${constants.passText} ("Hi, Tester" visible in navbar)\n`);
 	} catch (e) {
-		console.log(`${failText} (error: ${e})\n`);
+		console.log(`${constants.failText} (error: ${e})\n`);
 	}
 }
 

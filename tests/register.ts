@@ -1,5 +1,5 @@
 import { By, Key, until, WebDriver } from "selenium-webdriver";
-import { passText, failText } from "../constants"
+import constants from "../constants"
 
 type RegisterForm = {
 	email: string,
@@ -46,10 +46,10 @@ const clearForm = async (driver: WebDriver) => {
 
 const existingEmail = async (driver: WebDriver) => {
 	let input: RegisterForm = {
-		email: "bitorsic@gmail.com",
-		firstName: "Yash",
-		lastName: "Jaiswal",
-		password: "testing",
+		email: constants.oldEmail,
+		firstName: constants.firstName,
+		lastName: constants.lastName,
+		password: constants.password,
 	}
 
 	try {
@@ -64,25 +64,25 @@ const existingEmail = async (driver: WebDriver) => {
 		// assertion
 		let text: string;
 	
-		if (alertText === "email is already in use") text = passText;
-		else text = failText;
+		if (alertText === "email is already in use") text = constants.passText;
+		else text = constants.failText;
 	
 		console.log(`${text} (Alert opened with text: ${alertText})\n`)
 	
 		await alert.accept();
 		await clearForm(driver);
 	} catch (e) {
-		console.log(`${failText} (error: ${e})\n`)
+		console.log(`${constants.failText} (error: ${e})\n`)
 	}
 
 }
 
 const newEmail = async (driver: WebDriver) => {
 	let input = {
-		email: "yash_jaiswal_comp@moderncoe.edu.in",
-		firstName: "Tester",
-		lastName: "",
-		password: "testing",
+		email: constants.newEmail,
+		firstName: constants.firstName,
+		lastName: constants.lastName,
+		password: constants.password,
 	}
 
 	try {
@@ -97,14 +97,14 @@ const newEmail = async (driver: WebDriver) => {
 		// assertion
 		let text: string;
 	
-		if (alertText === "Registration Successful") text = passText;
-		else text = failText;
+		if (alertText === "Registration Successful") text = constants.passText;
+		else text = constants.failText;
 	
 		console.log(`${text} (Alert opened with text: ${alertText})\n`)
 	
 		await alert.accept();
 	} catch (e) {
-		console.log(`${failText} (error: ${e})\n`)
+		console.log(`${constants.failText} (error: ${e})\n`)
 	}
 
 }

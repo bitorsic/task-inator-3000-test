@@ -1,4 +1,21 @@
-export const passText: string = "Test Case Passed [✓]";
-export const failText: string = "Test Case Failed [✗]";
+const passText: string = "Test Case Passed [✓]";
+const failText: string = "Test Case Failed [✗]";
 
-export const taskContent: string = "Test task content";
+const oldEmail: string = "john@doe.com";
+const newEmail: string = "bitorsic@gmail.com";
+const firstName: string = "Yash";
+const lastName: string = "Jaiswal";
+const password: string = "testing";
+
+const taskContent: string = "Test task content";
+
+export default {
+	passText,
+	failText,
+	oldEmail,
+	newEmail,
+	firstName,
+	lastName,
+	password,
+	taskContent,
+}
